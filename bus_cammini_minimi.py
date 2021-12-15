@@ -12,10 +12,16 @@ Output: 2
 Explanation:
 The best strategy is take the first bus to the bus stop 7, then take the second bus to the bus stop 6.
 """
-
-routes = [[43, 6], [1, 2, 7], [3, 5, 7], [2, 98], [98, 43]]
-S = 1
-T = 6
+#routes esempio
+#routes = [[43, 6], [1, 2, 7], [3, 5, 7], [2, 98], [98, 43]]
+import random
+#routes con 6 linee, fermate da 30 a 36 generate randomicamente
+routes = [list(set([random.randint(30,36) for x in range(random.randint(2,4))])) for x in range(0,6)]
+print("routes: ", routes)
+S = routes[0][0]
+T = routes[5][-1]
+print("fermata di partenza: ", S)
+print("fermata di arrivo: ", T)
 sup_cammino = len(routes) + 1
 # popolo un dizionario con chiave una linea e valori una lista con le linee con cui è connessa direttamente
 dizionario_connessioni = {}
@@ -61,12 +67,15 @@ if __name__ == "__main__":
                 linee_partenza.append(routes.index(linea))
 
     print("linee in cui trovo la partenza: ", linee_partenza)
-    if T in linee_partenza:
-        cammino_minimo = 1
+    for linee in linee_partenza:
+        if T in routes[linee]:
+            cammino_minimo = 1
+            break
+
     else:
         cammino_minimo = trova_cammino(linee_partenza)
 
         if cammino_minimo == len(routes) + 1:
             cammino_minimo = -1 # ritorno -1 se non ho trovato il cammino, come da consegna
 
-        print("cammino_minimo trovato: ", cammino_minimo)
+    print("cammino_minimo trovato: ", cammino_minimo)
